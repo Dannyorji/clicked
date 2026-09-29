@@ -17,16 +17,16 @@ For checks after a deploy and for incident handling, use the
 Be clear about this before reading further: **the repository contains no
 deploy automation.** CI verifies code; people deploy it.
 
-| Stage | Automated? | Where |
-| --- | --- | --- |
-| Lint, test, build on every PR and push | Yes | `.github/workflows/*-ci.yml`, filtered by app path |
-| Security regression and crypto-dependency CVE audit | Yes, on PRs and on push to `main` | `security-ci.yml` |
-| Closing PRs to `main` that a non-maintainer opened | Yes | `guard-main-branch.yml` |
-| Closing linked issues when a PR merges to `dev` | Yes | `close-linked-issues.yml` |
-| Version bumps, tags, changelog | **No** | Manual (see [Versioning](#versioning)) |
-| Database migrations | **No** | Manual (`pnpm --filter backend db:migrate`) |
-| Deploying the backend, web app or AI agent | **No** | Manual. There are no Dockerfiles or hosting configs in the repo. |
-| Contract deploys | **No** | Manual scripts in `contracts/scripts/`, testnet only |
+| Stage                                               | Automated?                        | Where                                                            |
+| --------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------- |
+| Lint, test, build on every PR and push              | Yes                               | `.github/workflows/*-ci.yml`, filtered by app path               |
+| Security regression and crypto-dependency CVE audit | Yes, on PRs and on push to `main` | `security-ci.yml`                                                |
+| Closing PRs to `main` that a non-maintainer opened  | Yes                               | `guard-main-branch.yml`                                          |
+| Closing linked issues when a PR merges to `dev`     | Yes                               | `close-linked-issues.yml`                                        |
+| Version bumps, tags, changelog                      | **No**                            | Manual (see [Versioning](#versioning))                           |
+| Database migrations                                 | **No**                            | Manual (`pnpm --filter backend db:migrate`)                      |
+| Deploying the backend, web app or AI agent          | **No**                            | Manual. There are no Dockerfiles or hosting configs in the repo. |
+| Contract deploys                                    | **No**                            | Manual scripts in `contracts/scripts/`, testnet only             |
 
 ## Branch flow: contributor PR → `dev` → `main`
 
@@ -58,7 +58,7 @@ contributor fork ──PR──▶ dev ──(maintainer PR)──▶ main ─�
   `main` (plus feature branches) exists, and recent contributor PRs were merged
   straight into `main`. Create `dev` from `main` and make it the base for new
   contributor PRs.
-- **The guard only checks who *opened* a PR, not who *merges* it.** It closes
+- **The guard only checks who _opened_ a PR, not who _merges_ it.** It closes
   non-maintainer PRs to `main`, but it does not stop a collaborator with write
   access from merging a PR that the maintainer opened. To enforce "only the
   maintainer merges to `main`", add a branch-protection rule (or ruleset) on
@@ -112,7 +112,7 @@ Deploy in this order. Each step depends on the ones before it:
 
 Migrations live in `apps/backend/drizzle/` and are applied with
 `drizzle-kit migrate`. **Run them before rolling out the new backend code**, and
-write them so that the *previous* backend version still works against the
+write them so that the _previous_ backend version still works against the
 migrated schema:
 
 - The gateway runs as several instances coordinated through Redis (see
@@ -123,7 +123,7 @@ migrated schema:
   table, a new nullable column, a new index. Migrate first, then roll out.
 - **Destructive changes need two releases** (expand, then contract). Examples:
   dropping or renaming a column, adding `NOT NULL` without a default. Release
-  *N* stops reading and writing the column. Release *N+1* ships the migration
+  _N_ stops reading and writing the column. Release _N+1_ ships the migration
   that removes it, once no running instance uses it.
 - **Never run `db:push` against a shared database.** It diffs the schema and
   applies changes directly, can drop columns, and records no migration.
@@ -283,7 +283,7 @@ to deploy a new instance**, with all the consequences above.
 - Contract transactions are final. Transfers, deposits, withdrawals and votes
   executed against a bad contract cannot be reverted.
 - For `token_transfer`, you can call `upgrade` with the previous WASM hash.
-  That is a *roll forward to old code*, not a rollback: storage the new code
+  That is a _roll forward to old code_, not a rollback: storage the new code
   wrote stays as written. If the bad WASM breaks `upgrade` itself or the
   admin key check, the contract cannot be changed again.
 - For `group_treasury` and `proposals`, "rolling back" means pointing the
@@ -306,12 +306,12 @@ to deploy a new instance**, with all the consequences above.
 
 ## Rollback summary
 
-| App | Code rollback | State rollback | Notes |
-| --- | --- | --- | --- |
-| Backend | Yes: redeploy the previous tag | **No.** Forward-fix or restore a backup (loses writes since the backup). | Safe only if migrations followed expand/contract. |
-| Web app | Yes: promote the previous build | n/a | Old builds keep old `NEXT_PUBLIC_*` values. Loaded tabs keep the new bundle until reload. |
-| AI agent | Yes: redeploy the previous tag | **No** for Weaviate vectors | An embedding-model change needs a re-index. |
-| Contracts | `token_transfer` only, via `upgrade` to an old hash | **None.** On-chain transactions are final. | `group_treasury` and `proposals` can only be replaced, not changed. |
+| App       | Code rollback                                       | State rollback                                                           | Notes                                                                                     |
+| --------- | --------------------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Backend   | Yes: redeploy the previous tag                      | **No.** Forward-fix or restore a backup (loses writes since the backup). | Safe only if migrations followed expand/contract.                                         |
+| Web app   | Yes: promote the previous build                     | n/a                                                                      | Old builds keep old `NEXT_PUBLIC_*` values. Loaded tabs keep the new bundle until reload. |
+| AI agent  | Yes: redeploy the previous tag                      | **No** for Weaviate vectors                                              | An embedding-model change needs a re-index.                                               |
+| Contracts | `token_transfer` only, via `upgrade` to an old hash | **None.** On-chain transactions are final.                               | `group_treasury` and `proposals` can only be replaced, not changed.                       |
 
 ## Post-deploy verification
 
@@ -330,7 +330,7 @@ diagnosis and recovery steps for anything that fails.
    [runbook → Rotating VAPID / storage credentials](runbook.md#rotating-vapid--storage-credentials).
    Also see
    [runbook → Storage outage (S3-compatible object store)](runbook.md#storage-outage-s3-compatible-object-store).
-4. **Stellar listener.** The boot logs do *not* show
+4. **Stellar listener.** The boot logs do _not_ show
    `[stellar-listener] … listener disabled`, and a test transfer shows up in
    the chat.
 5. **Metrics.** `GET /metrics` is being scraped, and the dashboards in
