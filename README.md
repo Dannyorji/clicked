@@ -172,6 +172,9 @@ Frequently opened:
 
 We welcome contributions from developers, designers, and researchers.
 
+**➡️ See [CONTRIBUTING.md](CONTRIBUTING.md)** for the branch policy (PRs target `dev`, not
+`main`), commit conventions, issue linking, and CI requirements before opening a PR.
+
 ---
 
 ## 📌 How to Contribute
