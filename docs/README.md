@@ -62,6 +62,7 @@ listener.
 | [Device capability and E2EE protocol negotiation](../apps/backend/docs/concepts-protocol-negotiation.md) | What a device advertises at registration, how a sender and recipient agree on a protocol, and why the protocol is recorded per envelope.   |
 | [Replay protection and event idempotency](../apps/backend/docs/concepts-replay-protection.md)            | The device-scoped `eventId` dedup, the message-level `messageId` idempotency, the TTL, and the `dispatch_ack` duplicate flag.              |
 | [Backend caching reference](../apps/backend/docs/concepts-caching.md)                                    | The conversation-list cache: key, TTL, payload, every invalidation site, and the behaviour when Redis is down.                             |
+| [Presence, heartbeat & connection liveness](../apps/backend/docs/concepts-presence-heartbeat.md)         | The Redis presence key structure, the 30s/90s heartbeat timing contract, multi-device aggregation, and the debounced offline-broadcast behaviour. |
 | [Testing strategy and conventions](testing.md)                                                           | The Drizzle mocking pattern, driving socket handlers through the `dispatch` envelope, and the in-process counters that leak between tests. |
 | [Backend testing guide](../apps/backend/docs/testing.md)                                                 | The standard route-test mock set with a copyable skeleton, the Drizzle chain traps, and the state a suite has to reset between tests.      |
 
