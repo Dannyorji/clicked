@@ -88,6 +88,7 @@ listener.
 | [REST schemas](../apps/backend/docs/contracts-rest-schemas.md)                     | Request and response body schemas shared across the REST surface.                                                                                                                  |
 | [Error code and response catalog](../apps/backend/docs/contracts-error-catalog.md) | Every error the backend can return on either transport: the REST status/`error` table, the socket `error` payload shapes, the rate-limit response, and which errors are retryable. |
 | [WebSocket payloads](../apps/backend/docs/contracts-websocket-payloads.md)         | Payload shapes for each WebSocket event, as validated on the wire.                                                                                                                 |
+| [Database schema reference](../apps/backend/docs/contracts-database-schema.md)     | Every table, column, index, check constraint, and relation in `db/schema.ts`, with an ER diagram and notable gaps verified against the current schema.                            |
 
 **Encryption and migrations**
 
